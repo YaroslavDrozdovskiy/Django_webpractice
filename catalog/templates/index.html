@@ -1,0 +1,54 @@
+<!-- Наследуемся от базового шаблона -->
+{% extends 'base.html' %}
+
+<!-- блок титульника -->
+{% block title %} {{category.name}} {% endblock title%}
+
+<!-- Подгружаем Левое меню -->
+{% block left_menu %} {%include 'includes/left_menu.html' %} {% endblock left_menu %}
+
+<!-- главная часть -->
+{% block main %}
+<h2>{{category.name}}</h2>
+<table>
+    <tr>
+        <th>Название</th>
+        <th>Есть в наличии</th>
+    </tr>
+    {% for good in goods %}
+    <tr>
+        <!-- Привязка к URL шаблону good приложения catalog -->
+        {% url 'catalog:good' good_id=good.id as good_url %}
+
+        <td><a href="{{good_url}}?page={{goods.number}}">{{good.name}}</a></td>
+        <td class="centered">
+            {% if good.in_stock %} + {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- Постраничный вывод -->
+<div class="pagination">
+    <div class="step-links">
+        <div class="previous">
+            {% if goods.has_previous %}
+            <a href="{% url 'catalog:index' cat_id=category.id %}?page=1">&laquo; first</a>
+            <a href="{% url 'catalog:index' cat_id=category.id %}?page={{ goods.previous_page_number }}">previous</a>
+            {% endif %}
+        </div>
+        
+
+        <div class="current">
+            Page {{ goods.number }} of {{ goods.paginator.num_pages }}.
+        </div>
+        
+        <div class="next">
+            {% if goods.has_next %}
+            <a href="{% url 'catalog:index' cat_id=category.id %}?page={{ goods.next_page_number }}">next</a>
+            <a href="{% url 'catalog:index' cat_id=category.id %}?page={{ goods.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </div> 
+    </div>
+</div>      
+{% endblock main %}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css" />
+        <title>
+            {% block title %}{% endblock title %} :: Всё для убокри
+        </title>
+    </head>
+    <body>
+        
+        <!-- Головная часть -->
+        <div id="header">
+            <h1>Всё для уборки</h1>
+        </div>
+        
+        <!-- Левое меню -->
+        <div class="left-menu">
+            {% block left_menu %} {% endblock left_menu %}
+        </div>
+
+        <!-- Главная часть -->
+        <div id="main">
+            {% block main %} {% endblock main %}
+        </div>
+        
+        <!-- Подвал сайта -->
+        <div id="footer">
+            <p>Все права защищены</p>
+        </div>
+    </body>
+</html>
