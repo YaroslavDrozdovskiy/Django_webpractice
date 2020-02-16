@@ -1,0 +1,25 @@
+
+<!-- Наследуемся от базового шаблона -->
+{% extends 'base.html' %} 
+
+<!-- блок титульника -->
+{% block title %} {{good.name}} {% endblock title %}
+
+<!-- Подгружаем Левое меню -->
+{% block left_menu %} {%include 'includes/left_menu.html' %} {% endblock left_menu %}
+
+<!-- главная часть -->
+{% block main %}
+    <h2>{{good.name}}</h2>
+    <p class="category">Категория: {{good.category.name}}</p>
+    <h2>Цена: {{good.price}} &#8381;</h2>
+    <p>{{good.description|linebreaksbr}}</p>
+    <p>
+        {% if not good.in_stock %} Нет в наличии! {% endif %}
+    </p>
+    <p class="not-in-stock">
+        <!-- Привязка к URL шаблону index приложения catalog -->
+        {% url 'catalog:index' cat_id=good.category.id as cat_url %}
+        <a href="{{cat_url}}?page={{ pn }}">Назад</a>
+    </p>
+{% endblock main %}
