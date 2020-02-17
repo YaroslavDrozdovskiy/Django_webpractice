@@ -7,7 +7,7 @@ app_name = 'catalog'
 
 urlpatterns = [
     path('<int:cat_id>', GoodListView.as_view(), name="index"),
-    path('good/<int:good_id>', good, name="good"),
+    path('good/<int:good_id>', GoodDetailView.as_view(), name="good"),
     # path('about/', AboutView.as_view(template_name='others/about.html'), name = 'about')
 
 ]

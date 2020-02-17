@@ -15,12 +15,12 @@
         <th>Название</th>
         <th>Есть в наличии</th>
     </tr>
-    {% for good in goods %}
+    {% for good in good_list %}
     <tr>
         <!-- Привязка к URL шаблону good приложения catalog -->
         {% url 'catalog:good' good_id=good.id as good_url %}
 
-        <td><a href="{{good_url}}?page={{goods.number}}">{{good.name}}</a></td>
+        <td><a href="{{good_url}}?page={{page_obj.number}}">{{good.name}}</a></td>
         <td class="centered">
             {% if good.in_stock %} + {% endif %}
         </td>
@@ -32,21 +32,21 @@
 <div class="pagination">
     <div class="step-links">
         <div class="previous">
-            {% if goods.has_previous %}
+            {% if page_obj.has_previous %}
             <a href="{% url 'catalog:index' cat_id=category.id %}?page=1">&laquo; first</a>
-            <a href="{% url 'catalog:index' cat_id=category.id %}?page={{ goods.previous_page_number }}">previous</a>
+            <a href="{% url 'catalog:index' cat_id=category.id %}?page={{ page_obj.previous_page_number }}">previous</a>
             {% endif %}
         </div>
         
 
         <div class="current">
-            Page {{ goods.number }} of {{ goods.paginator.num_pages }}.
+            Page {{ page_obj.number }} of {{ paginator.num_pages }}.
         </div>
         
         <div class="next">
-            {% if goods.has_next %}
-            <a href="{% url 'catalog:index' cat_id=category.id %}?page={{ goods.next_page_number }}">next</a>
-            <a href="{% url 'catalog:index' cat_id=category.id %}?page={{ goods.paginator.num_pages }}">last &raquo;</a>
+            {% if page_obj.has_next %}
+            <a href="{% url 'catalog:index' cat_id=category.id %}?page={{ page_obj.next_page_number }}">next</a>
+            <a href="{% url 'catalog:index' cat_id=category.id %}?page={{ paginator.num_pages }}">last &raquo;</a>
             {% endif %}
         </div> 
     </div>
