@@ -4,6 +4,10 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.dates import ArchiveIndexView
 
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import ProcessFormView
+from django.core.urlresolvers import reverse
+
 
 class CategoryListMixin(ContextMixin):
 
@@ -59,9 +63,35 @@ class NewArchiveView(ArchiveIndexView):
     date_field = "pub_date"
     template_name = 'news_archive.html'
 
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['cats'] = Category.objects.order_by('name')
         return context
+
+
+################## простые формы ##################################
+
+class GoodEditMixin(CategoryListMixin):
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context['pn'] = self.request.GET["page"]
+        except KeyError:
+            context['pn'] = 1
+
+        return context
+
+
+class GoodEditView(ProcessFormView):
+    def post(self, request, *args, **kwargs):
+        try:
+            pn = request.GET["page"]
+        except KeyError:
+            pn = 1
+        slef.success_url = self.success_url + "?page=" + pn
+        
+        return super().post(self, request, *args, **kwargs)
+    
+class GoodCreate(CreateView, GoodEditMixin):
     
