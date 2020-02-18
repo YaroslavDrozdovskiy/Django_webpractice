@@ -1,19 +1,16 @@
-# from django.shortcuts import render
-# from django.http import HttpResponse, Http404
-from catalog.models import Category, Good
-from django.core.paginator import Paginator, InvalidPage
+from catalog.models import Category, Good, New
 from django.views.generic.base import ContextMixin
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.dates import ArchiveIndexView
+
 
 class CategoryListMixin(ContextMixin):
-    
+
     def get_context_data(self, **kwargs):
         context = super(CategoryListMixin, self).get_context_data(**kwargs)
         context["cats"] = Category.objects.order_by('name')
         return context
-    
-
 
 
 class GoodListView(ListView, CategoryListMixin):
@@ -56,3 +53,15 @@ class GoodDetailView(DetailView, CategoryListMixin):
 
         return context
 
+
+class NewArchiveView(ArchiveIndexView):
+    model = New
+    date_field = "pub_date"
+    template_name = 'news_archive.html'
+
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cats'] = Category.objects.order_by('name')
+        return context
+    

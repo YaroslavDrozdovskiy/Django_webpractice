@@ -1,0 +1,25 @@
+<!-- Наследуемся от базового шаблона -->
+{% extends 'base.html' %}
+
+<!-- блок титульника -->
+{% block title %} {{category.name}} {% endblock title%}
+
+<!-- Подгружаем Левое меню -->
+{% block left_menu %} {%include 'includes/left_menu.html' %} {% endblock left_menu %}
+
+<!-- главная часть -->
+{% block main %}
+    
+    {% for new in latest %}
+        <h3>{{ new.title }}</h3>
+        <p>{{ new.pub_date }}</p> 
+        <p>{{ new.description }}</p> 
+    {% endfor %}
+    
+    <ul>
+        
+        {% for date in date_list %}
+            <li>{{ date|date:'Y' }} </li>
+        {% endfor %}
+    </ul>   
+{% endblock main %}
