@@ -3,7 +3,7 @@
 {% extends 'base.html' %} 
 
 <!-- блок титульника -->
-{% block title %} {{good.name}} {% endblock title %}
+{% block title %} Удаление :: {{good.name}} {% endblock title %}
 
 <!-- Подгружаем Левое меню -->
 {% block left_menu %} {%include 'includes/left_menu.html' %} {% endblock left_menu %}
@@ -17,9 +17,14 @@
     <p class="not-in-stock">
         {% if not good.in_stock %} Нет в наличии! {% endif %}
     </p>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="button" value="Удалить">
+    </form>
+
     <p>
         <!-- Привязка к URL шаблону index приложения catalog -->
-        {% url 'index' cat_id=good.category.id as cat_url %}
+        {% url 'catalog:index' cat_id=good.category.id as cat_url %}
         <a href="{{cat_url}}?page={{ pn }}">Назад</a>
     </p>
 {% endblock main %}

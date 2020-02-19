@@ -72,6 +72,8 @@ class NewArchiveView(ArchiveIndexView):
 ################## простые формы ##################################
 
 class GoodEditMixin(CategoryListMixin):
+    """получает переданный контроллеру номер страницы 
+    и добавляет его в контекст данных в качестве отдельной переменной"""
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -84,17 +86,23 @@ class GoodEditMixin(CategoryListMixin):
 
 
 class GoodEditView(ProcessFormView):
+    """также получает номер страницы и добавляет его к 
+    интернет-адресу возврата(значению свойств success_url) в качестве GET-параметра"""
+
     def post(self, request, *args, **kwargs):
         try:
             pn = request.GET["page"]
         except KeyError:
             pn = 1
-        slef.success_url = self.success_url + "?page=" + pn
+        self.success_url = self.success_url + "?page=" + pn
 
         return super().post(self, request, *args, **kwargs)
 
 
 class GoodCreate(CreateView, GoodEditMixin):
+    """Добавляет переменную, хранящую категорию в контекст данных. 
+    В итоге получаем возможность  вывода в шаблоне названия категории и гиперссылку возврата"""
+
     model = Good
     template_name = 'good_add.html'
 
@@ -117,7 +125,7 @@ class GoodCreate(CreateView, GoodEditMixin):
 class GoodUpdate(UpdateView, GoodEditMixin, GoodEditView):
     model = Good
     template_name = 'good_edit.html'
-    pk_url_kwargs = 'good_id'
+    pk_url_kwarg = 'good_id'
 
     def post(self, request, *args, **kwargs):
         self.success_url = reverse(
@@ -127,7 +135,7 @@ class GoodUpdate(UpdateView, GoodEditMixin, GoodEditView):
 class GoodDelete(DeleteView, GoodEditMixin, GoodEditView):
     model = Good
     template_name = 'good_delete.html'
-    pk_url_kwargs = 'good_id'
+    pk_url_kwarg = 'good_id'
 
     def post(self, request, *args, **kwargs):
         self.success_url = reverse(

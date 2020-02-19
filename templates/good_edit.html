@@ -1,0 +1,19 @@
+
+<!-- Наследуемся от базового шаблона -->
+{% extends 'base.html' %} 
+
+<!-- блок титульника -->
+{% block title %} Правка :: {{good.name}} :: {{good.category.name}} {% endblock title %}
+
+<!-- Подгружаем Левое меню -->
+{% block left_menu %} {%include 'includes/left_menu.html' %} {% endblock left_menu %}
+
+<!-- главная часть -->
+{% block main %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="button" value="Сохранить">
+    </form>
+    <p><a href="{% url 'index' cat_id=good.category.id %}?page={{pn}} "></a></p>
+{% endblock main %}
