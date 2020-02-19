@@ -6,7 +6,7 @@ from django.views.generic.dates import ArchiveIndexView
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.edit import ProcessFormView
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 class CategoryListMixin(ContextMixin):
@@ -90,8 +90,51 @@ class GoodEditView(ProcessFormView):
         except KeyError:
             pn = 1
         slef.success_url = self.success_url + "?page=" + pn
-        
+
+        return super().post(self, request, *args, **kwargs)
+
+
+class GoodCreate(CreateView, GoodEditMixin):
+    model = Good
+    template_name = 'good_add.html'
+
+    def get(self, request, *args, **kwargs):
+        if self.kwargs['cat_id'] != None:
+            self.initial['category'] = Category.objects.get(
+                pk=self.kwargs['cat_id'])
+        return super().get(self, request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.success_url = reverse(
+            'index', kwargs={'cat_id': Category.objects.get(pk=self.kwargs['cat_id']).id, })
+        return super().post(self, request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = Category.objects.get(pk = self.kwargs['cat_id'])
+        return context
+
+class GoodUpdate(UpdateView, GoodEditMixin, GoodEditView):
+    model = Good
+    template_name = 'good_edit.html'
+    pk_url_kwargs = 'good_id'
+
+    def post(self, request, *args, **kwargs):
+        self.success_url = reverse(
+            'index', kwargs={'cat_id': Good.objects.get(pk=self.kwargs['good_id']).category.id, })
+        return super().post(self, request, *args, **kwargs)
+
+class GoodDelete(DeleteView, GoodEditMixin, GoodEditView):
+    model = Good
+    template_name = 'good_delete.html'
+    pk_url_kwargs = 'good_id'
+
+    def post(self, request, *args, **kwargs):
+        self.success_url = reverse(
+            'index', kwargs={'cat_id': Good.objects.get(pk=self.kwargs['good_id']).category.id, })
         return super().post(self, request, *args, **kwargs)
     
-class GoodCreate(CreateView, GoodEditMixin):
-    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['good'] = Good.objects.get(pk = self.kwargs['good_id'])
+        return context
