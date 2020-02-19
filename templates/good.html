@@ -19,7 +19,7 @@
     </p>
     <p>
         <!-- Привязка к URL шаблону index приложения catalog -->
-        {% url 'index' cat_id=good.category.id as cat_url %}
+        {% url 'catalog:index' cat_id=good.category.id as cat_url %}
         <a href="{{cat_url}}?page={{ pn }}">Назад</a>
     </p>
 {% endblock main %}

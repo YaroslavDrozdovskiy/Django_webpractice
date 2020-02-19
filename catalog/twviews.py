@@ -105,6 +105,8 @@ class GoodCreate(CreateView, GoodEditMixin):
 
     model = Good
     template_name = 'good_add.html'
+    # в версиях старше 1.6 field - обязательный атрибут
+    fields = '__all__'
 
     def get(self, request, *args, **kwargs):
         if self.kwargs['cat_id'] != None:
@@ -124,6 +126,8 @@ class GoodCreate(CreateView, GoodEditMixin):
 
 class GoodUpdate(UpdateView, GoodEditMixin, GoodEditView):
     model = Good
+    # в версиях старше 1.6 field - обязательный атрибут
+    fields = '__all__'
     template_name = 'good_edit.html'
     pk_url_kwarg = 'good_id'
 
@@ -134,6 +138,8 @@ class GoodUpdate(UpdateView, GoodEditMixin, GoodEditView):
 
 class GoodDelete(DeleteView, GoodEditMixin, GoodEditView):
     model = Good
+    # в версиях старше 1.6 field - обязательный атрибут
+    fields = '__all__'
     template_name = 'good_delete.html'
     pk_url_kwarg = 'good_id'
 

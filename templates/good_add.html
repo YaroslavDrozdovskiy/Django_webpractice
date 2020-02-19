@@ -3,7 +3,7 @@
 {% extends 'base.html' %} 
 
 <!-- блок титульника -->
-{% block title %} Добавление товара :: {category.name}} {% endblock title %}
+{% block title %} Добавление товара :: {{category.name}} {% endblock title %}
 
 <!-- Подгружаем Левое меню -->
 {% block left_menu %} {%include 'includes/left_menu.html' %} {% endblock left_menu %}
@@ -15,5 +15,5 @@
         {{form.as_p}}
         <input type="button" value="Добавить">
     </form>
-    <p><a href="{% url 'index' cat_id=category.id %}?page={{pn}} "></a></p>
+    <p><a href="{% url 'catalog:index' cat_id=category.id %}?page={{pn}} ">Назад</a></p>
 {% endblock main %}
