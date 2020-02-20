@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.edit import ProcessFormView
 from django.urls import reverse
 
+from catalog.forms import GoodForm
 
 class CategoryListMixin(ContextMixin):
 
@@ -102,11 +103,10 @@ class GoodEditView(ProcessFormView):
 class GoodCreate(CreateView, GoodEditMixin):
     """Добавляет переменную, хранящую категорию в контекст данных. 
     В итоге получаем возможность  вывода в шаблоне названия категории и гиперссылку возврата"""
-
+    
+    form_class = GoodForm
     model = Good
     template_name = 'good_add.html'
-    # в версиях старше 1.6 field - обязательный атрибут
-    fields = '__all__'
 
     def get(self, request, *args, **kwargs):
         if self.kwargs['cat_id'] != None:
