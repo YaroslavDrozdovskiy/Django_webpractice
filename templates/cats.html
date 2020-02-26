@@ -1,0 +1,54 @@
+<!-- Наследуемся от базового шаблона -->
+{% extends 'base.html' %} 
+
+<!-- блок титульника -->
+{% block title %} {% endblock title %}
+
+<!-- Подгружаем Левое меню -->
+{% block left_menu %} {%include 'includes/left_menu.html' %} {% endblock left_menu %}
+
+<!-- главная часть -->
+{% block main %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{formset.management_form}}
+        
+        {% for form in formset %}
+        <table border="1" >    
+            {% for field in form.hidden_fields %}
+                {{field}}
+            {% endfor %}
+            
+            {% for field in form.visible_fields %}
+                {% if field.label != "Порядок" and field.label != "Удалить" %}
+                <div class="form-field">
+                        {% if field.errors.coint > 0 %}
+                            <div class="error-list">
+                                {{field.errors}}
+                            </div> 
+                        {% endif %}
+                        <div class="label">{{field.label}}</div>
+                        <div class="control">{{field}}</div>
+                        
+                        {% if field.help_text %}
+                            <div class="help">{{field.help_text}}</div>   
+                        {% endif %}
+                {% endif %}
+                    
+                
+            {% endfor %}
+                
+            
+            {% if formset.can_order %}
+                <div>Порядок: {{form.ORDER}}</div>
+            {% endif %}
+
+            {% if formset.can_delete %}
+                <div>{{form.DELETE}} Удалить</div>   
+            {% endif %}        
+                </div>
+            </table>
+        {% endfor %}
+        <div class="submit_button"><input type="submit" value="Сохранить"></div>   
+    </form>
+{% endblock main %}

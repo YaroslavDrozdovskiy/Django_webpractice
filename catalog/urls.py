@@ -1,4 +1,5 @@
 from django.urls import path
+from .catviews import CategoryListView
 from .twviews import (
     GoodListView, GoodDetailView, NewArchiveView, 
     GoodCreate, GoodUpdate, GoodDelete,
@@ -13,5 +14,6 @@ urlpatterns = [
     path('good/<int:cat_id>/add', GoodCreate.as_view(), name="good_add"),
     path('good/<int:good_id>/edit', GoodUpdate.as_view(), name="good_edit"),
     path('good/<int:good_id>/delete', GoodDelete.as_view(), name="good_delete"),
+    path('cats/', CategoryListView.as_view(), name = 'cats')
 
 ]
