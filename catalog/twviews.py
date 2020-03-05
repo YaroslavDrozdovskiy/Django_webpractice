@@ -20,7 +20,7 @@ class CategoryListMixin(ContextMixin):
 
 class GoodListView(ListView, CategoryListMixin):
     template_name = "index.html"
-    queryset = Good.objects.order_by("name")
+    # queryset = Good.objects.order_by("name")
     paginate_by = 2
     cat = None
 
@@ -31,10 +31,10 @@ class GoodListView(ListView, CategoryListMixin):
         else:
             self.cat = Category.objects.get(pk=self.kwargs["cat_id"])
         return super().get(request, *args, **kwargs)
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['cats'] = Category.objects.order_by('name')
+        # context['cats'] = Category.objects.order_by('name')
         context['category'] = self.cat
         return context
 
@@ -54,7 +54,7 @@ class GoodDetailView(DetailView, CategoryListMixin):
             context['pn'] = self.request.GET['page']
         except KeyError:
             context['pn'] = 1
-        context['cats'] = Category.objects.order_by('name')
+        # context['cats'] = Category.objects.order_by('name')
 
         return context
 

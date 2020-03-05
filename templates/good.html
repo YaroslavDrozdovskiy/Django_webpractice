@@ -13,7 +13,7 @@
     <h2>{{good.name}}</h2>
     <p class="category">Категория: {{good.category.name}}</p>
     <h2>Цена: {{good.price}} &#8381;</h2>
-    <p>{{good.description|linebreaksbr}}</p>
+    <p><em>{{good.description|linebreaksbr}}</em></p>
     <p class="not-in-stock">
         {% if not good.in_stock %} Нет в наличии! {% endif %}
     </p>
@@ -22,4 +22,5 @@
         {% url 'catalog:index' cat_id=good.category.id as cat_url %}
         <a href="{{cat_url}}?page={{ pn }}">Назад</a>
     </p>
+    
 {% endblock main %}
