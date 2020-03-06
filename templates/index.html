@@ -6,14 +6,16 @@
 
 <!-- Подгружаем Левое меню -->
 {% block left_menu %} {%include 'includes/left_menu.html' %} {% endblock left_menu %}
-
 <!-- главная часть -->
 {% block main %}
 <h2>{{category.name}}</h2>
+<p><a href="{% url 'catalog:good_add' cat_id=category.id %}?page={{page_obj.number}}">Добавить товар</a></p>
 <table>
     <tr>
         <th>Название</th>
         <th>Есть в наличии</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
     </tr>
     {% for good in good_list %}
     <tr>
@@ -24,6 +26,8 @@
         <td class="centered">
             {% if good.in_stock %} + {% endif %}
         </td>
+        <td class="centered"><a href="{% url 'catalog:good_edit' good_id=good.id %}?page={{page_obj.number}}">Изменить</a></td>
+        <td class="centered"><a href="{% url 'catalog:good_delete' good_id=good.id %}?page={{page_obj.number}}">Удалить</a></td>
     </tr>
     {% endfor %}
 </table>

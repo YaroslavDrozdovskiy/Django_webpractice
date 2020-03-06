@@ -69,17 +69,27 @@ body {
 .pagination {
     margin-top: 20px;
     height: 20px;
-    
 }
 
 .pagination .step-links {
     display: flex;
     justify-content: space-between;
-    color: #ff0000;
+    color: blueviolet;
 }
 
-.pagination .previous, 
+.pagination .previous,
 .pagination .next {
     width: 100px;
 }
 
+.form-field {
+    display: inline-block;
+    
+    
+    /* border: 2px solid red */
+    
+}
+
+.form-field > * {
+    margin-bottom: 5px;
+}
